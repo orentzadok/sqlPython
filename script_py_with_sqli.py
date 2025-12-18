@@ -2,14 +2,12 @@
 
 import sqlite3
 
-def open_connection():
-conn=sqlite3.connet("firstdb.db")
-    cursor=conn.cursor()
+conn=sqlite3.connect("firstdb.db")
+cursor=conn.cursor()
 
 name=input("what your name? ")
 print(f"hello {name}")
 
-open_connection()
 
 cursor.execute("""
                CREATE TABLE IF NOT EXISTS names(
@@ -17,6 +15,13 @@ cursor.execute("""
                                                          last_name TEXT
                )
 """)
+cursor.execute("INSERT INTO names (first_name, last_name) VALUES(?,?)", (name,name))
 conn.commit()
-conn.close()
+cursor.execute("SELECT * FROM names")
+rows=cursor.fetchall()
+for row in rows:
+	print(row)
+
+conn.close
+
 
